@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="land" x1="150" y1="340" x2="360" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#14B8A6"/>
+    </linearGradient>
+    <linearGradient id="water" x1="140" y1="220" x2="360" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded background -->
+  <rect x="48" y="48" width="416" height="416" rx="96" fill="url(#bg)"/>
+
+  <!-- Tile grid (remote sensing vibe) -->
+  <g opacity="0.22">
+    <path d="M128 160H384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M128 224H384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M128 288H384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M128 352H384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M160 128V384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M224 128V384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M288 128V384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M352 128V384" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <!-- Land + water blobs -->
+  <path
+    d="M160 320C186 276 228 250 262 248C304 246 330 272 352 300C374 328 358 366 332 380C304 396 252 402 214 392C176 382 142 354 160 320Z"
+    fill="url(#land)"
+    filter="url(#soft)"
+  />
+  <path
+    d="M162 214C186 190 224 174 258 176C288 178 310 196 324 214C340 234 338 260 318 272C296 286 264 274 244 264C220 252 200 254 184 262C168 270 148 242 162 214Z"
+    fill="url(#water)"
+    filter="url(#soft)"
+  />
+
+  <!-- Satellite orbit + node -->
+  <circle cx="256" cy="256" r="170" stroke="#A5B4FC" stroke-width="14" opacity="0.65"/>
+  <circle cx="396" cy="196" r="18" fill="#A5B4FC"/>
+  <path d="M376 178L414 216" stroke="#A5B4FC" stroke-width="14" stroke-linecap="round"/>
+  <path d="M404 176L386 216" stroke="#A5B4FC" stroke-width="14" stroke-linecap="round"/>
+</svg>
