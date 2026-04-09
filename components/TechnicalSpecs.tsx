@@ -4,7 +4,7 @@ export function TechnicalSpecs() {
   const specs = [
     {
       label: 'Architecture',
-      value: 'AFMRNET',
+      value: 'AMFRNet',
       details: 'Convolutional Neural Network with interpretability features',
     },
     {
