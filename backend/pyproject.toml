@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "src"
+version = "0.1.0"
+description = "FastAPI backend for LULC recognition system"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "torch",
+    "torchvision",
+    "pillow",
+    "python-multipart",
+    "pydantic",
+    "grad-cam",
+    "lime",
+    "opencv-python",
+    "matplotlib",
+    "scikit-image",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
