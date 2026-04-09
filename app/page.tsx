@@ -61,10 +61,10 @@ export default function Dashboard() {
       formData.append('model_type', selectedDataset);
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-      
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-      
+
       const response = await fetch(`${apiUrl}/predict`, {
         method: 'POST',
         body: formData,
@@ -109,7 +109,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
-        
+
         {/* Upload & Select Card */}
         <Card className="bg-slate-900 border-slate-800 p-4 sm:p-6 space-y-6">
           <div>
@@ -130,60 +130,60 @@ export default function Dashboard() {
           </div>
         </Card>
 
-            {/* Action Button */}
-            {preview && !result && (
-              <div className="flex gap-2 sm:gap-3">
-                <button
-                  onClick={handlePredict}
-                  disabled={isLoading}
-                  className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-700 text-white text-sm sm:text-base font-semibold transition-colors duration-200 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? 'Processing...' : 'Run Inference'}
-                </button>
-              </div>
-            )}
+        {/* Action Button */}
+        {preview && !result && (
+          <div className="flex gap-2 sm:gap-3">
+            <button
+              onClick={handlePredict}
+              disabled={isLoading}
+              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-700 text-white text-sm sm:text-base font-semibold transition-colors duration-200 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Processing...' : 'Run Inference'}
+            </button>
+          </div>
+        )}
 
-            {/* Loading State */}
-            {isLoading && (
-              <Card className="bg-slate-900 border-slate-800 p-6 sm:p-8">
-                <NeuralNetworkLoader />
-              </Card>
-            )}
+        {/* Loading State */}
+        {isLoading && (
+          <Card className="bg-slate-900 border-slate-800 p-6 sm:p-8">
+            <NeuralNetworkLoader />
+          </Card>
+        )}
 
-            {/* Error State */}
-            {error && (
-              <Card className="bg-red-900/20 border-red-700/50 p-4">
-                <p className="text-sm text-red-300">{error}</p>
-              </Card>
-            )}
+        {/* Error State */}
+        {error && (
+          <Card className="bg-red-900/20 border-red-700/50 p-4">
+            <p className="text-sm text-red-300">{error}</p>
+          </Card>
+        )}
 
-            {/* Results Section */}
-            {result && !isLoading && (
-              <div className="space-y-6">
-                <PredictionResults result={result} />
+        {/* Results Section */}
+        {result && !isLoading && (
+          <div className="space-y-6">
+            <PredictionResults result={result} />
 
-                {/* Clear and Re-upload */}
-                <div className="flex gap-2 sm:gap-3">
-                  <button
-                    onClick={() => {
-                      setSelectedFile(null);
-                      setPreview(null);
-                      setResult(null);
-                      setError(null);
-                      setUploadKey(prev => prev + 1);
-                    }}
-                    className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm sm:text-base font-semibold transition-colors duration-200 border border-slate-700"
-                  >
-                    Upload Another Image
-                  </button>
-                </div>
-              </div>
-            )}
+            {/* Clear and Re-upload */}
+            <div className="flex gap-2 sm:gap-3">
+              <button
+                onClick={() => {
+                  setSelectedFile(null);
+                  setPreview(null);
+                  setResult(null);
+                  setError(null);
+                  setUploadKey(prev => prev + 1);
+                }}
+                className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm sm:text-base font-semibold transition-colors duration-200 border border-slate-700"
+              >
+                Upload Another Image
+              </button>
+            </div>
+          </div>
+        )}
 
-            {/* Technical Specs Footer */}
-            {(preview || result) && (
-              <TechnicalSpecs />
-            )}
+        {/* Technical Specs Footer */}
+        {(preview || result) && (
+          <TechnicalSpecs />
+        )}
 
         {/* Info Panel */}
         {!preview && (
@@ -224,7 +224,7 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className="border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-500">
         <p>
-          Deep Learning LULC Recognition System • Final Year Project • 
+          Deep Learning LULC Recognition System By Khadijah Shabbir & Numan Abubakar
         </p>
       </footer>
     </div>
