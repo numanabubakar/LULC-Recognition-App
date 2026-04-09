@@ -224,7 +224,7 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className="border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-500">
         <p>
-          Deep Learning LULC Recognition System By Khadijah Shabbir & Numan Abubakar
+          LULC Recognition System By Khadijah Shabbir & Numan Abubakar
         </p>
       </footer>
     </div>
