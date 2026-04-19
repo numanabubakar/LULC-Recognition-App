@@ -62,10 +62,12 @@ export default function Dashboard() {
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+      const baseUrl = apiUrl.endsWith('/') ? apiUrl.slice(0, -1) : apiUrl;
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-      const response = await fetch(`${apiUrl}/predict`, {
+      const response = await fetch(`${baseUrl}/predict`, {
         method: 'POST',
         body: formData,
         signal: controller.signal,
