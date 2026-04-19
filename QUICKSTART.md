@@ -119,8 +119,13 @@ Should return:
 {
   "status": "healthy",
   "device": "cpu",
-  "models_available": ["eurosat", "mlrsnet", "patternnet"]
+  "models_available": ["mlrsnet", "patternnet", "eurosat"]
 }
+```
+
+### Remote API Test (Production)
+```bash
+curl https://lulc-recognition-lulc-backend.hf.space/health
 ```
 
 ### System Information
@@ -165,10 +170,8 @@ Should return specifications including:
 2. Add model config in `backend/model_loader.py`
 3. Update UI in `components/DatasetSelector.tsx`
 
-## Performance Tips
-
-- **First prediction**: ~100-500ms (model loading)
-- **Subsequent predictions**: ~25-50ms (cached model)
+- **Explainability**: Integrated GradCAM, GradCAM++, Saliency, and LIME maps
+- **Smart Preprocessing**: Dynamic 64x64 resizing for EuroSAT (skips resize if image <= 64x64)
 - **Use GPU**: Automatically detected, speeds up ~3-5x
 - **Batch predictions**: Modify backend to accept multiple images
 

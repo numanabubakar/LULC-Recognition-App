@@ -17,12 +17,9 @@ A professional, research-oriented Deep Learning dashboard for Land Use & Land Co
 - **Responsive Design**: Works seamlessly on desktop and mobile
 
 ### Backend (FastAPI + PyTorch)
-- **Modular Model Loading**: Dynamic loading of three separate PyTorch models
-- **Optimized Preprocessing**: Standard remote sensing pipeline (224×224 resize, ImageNet normalization)
-- **Fast Inference**: ~25ms prediction time per image
-- **Error Handling**: Robust validation for image formats and file sizes
-- **Performance Tracking**: Detailed latency metrics and system information
-- **CORS Enabled**: Ready for production deployment
+- **Explainability Suite**: Built-in support for GradCAM, GradCAM++, Saliency maps, and LIME explanations
+- **Smart Preprocessing**: Conditional resizing logic (EuroSAT images only resized if > 64x64)
+- **CORS Enabled**: Ready for production deployment with secure origins
 - **Production Ready**: Supports actual trained PyTorch state_dict models
 
 ## 🚀 Quick Start
@@ -139,6 +136,12 @@ curl -X POST "http://localhost:8000/predict" \
     "width": 512,
     "height": 512,
     "format": "JPEG"
+  },
+  "explain_maps": {
+    "Saliency": "data:image/jpeg;base64,...",
+    "GradCAM": "data:image/jpeg;base64,...",
+    "GradCAM++": "data:image/jpeg;base64,...",
+    "LIME": "data:image/jpeg;base64,..."
   }
 }
 ```

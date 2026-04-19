@@ -1,3 +1,12 @@
+---
+title: Lulc Backend
+emoji: 🔥
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
+
 # LULC Recognition Backend
 
 FastAPI backend for the Deep Learning Land Use & Land Cover Recognition System.
@@ -67,9 +76,13 @@ Predict LULC class for an image.
   "inference_time_ms": 25.5,
   "model_type": "eurosat",
   "image_info": {
-    "width": 512,
-    "height": 512,
     "format": "JPEG"
+  },
+  "explain_maps": {
+    "Saliency": "data:image/jpeg;base64,...",
+    "GradCAM": "data:image/jpeg;base64,...",
+    "GradCAM++": "data:image/jpeg;base64,...",
+    "LIME": "data:image/jpeg;base64,..."
   }
 }
 ```
@@ -82,7 +95,7 @@ Health check endpoint.
 {
   "status": "healthy",
   "device": "cpu",
-  "models_available": ["eurosat", "mlrsnet", "patternnet"]
+  "models_available": ["mlrsnet", "patternnet", "eurosat"]
 }
 ```
 
@@ -125,12 +138,14 @@ The backend expects state_dict files saved from PyTorch models:
 
 ## Architecture
 
-- **Model Loader**: Modular system for loading models on-demand
-- **Preprocessor**: Standard remote sensing preprocessing pipeline
-  - Resize to 224x224
+- **Preprocessor**: Smart remote sensing preprocessing pipeline
+  - Dynamic Resize: EuroSAT images only resized to 64x64 if they exceed that size.
+  - Standard Resize: 224x224 for other models.
   - Convert to tensor
   - Normalize with ImageNet statistics
+- **Explainers**: Integrated Saliency, GradCAM, GradCAM++, and LIME for model transparency.
 - **Error Handling**: Validation for image formats, file sizes, and device compatibility
+
 
 ## Performance Notes
 
