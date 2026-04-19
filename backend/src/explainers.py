@@ -77,7 +77,7 @@ def get_gradcam_maps(model, image_tensor, orig_image_np):
     return array_to_base64(cam_image), array_to_base64(cam_plus_image)
 
 
-def get_lime_map(model, preprocessor, image_bytes, orig_image_np, device):
+def get_lime_map(model, preprocessor, image_bytes, orig_image_np, device, model_type):
     """Generate LIME explanation."""
     explainer = lime_image.LimeImageExplainer()
     
@@ -85,7 +85,8 @@ def get_lime_map(model, preprocessor, image_bytes, orig_image_np, device):
         tensors = []
         for img_arr in images:
             img_pil = PIL.Image.fromarray(img_arr)
-            tensor = preprocessor.transforms(img_pil).to(device)
+            transform = preprocessor.get_transforms(model_type, img_pil.width, img_pil.height)
+            tensor = transform(img_pil).to(device)
             tensors.append(tensor)
         
         batch_tensor = torch.stack(tensors)
@@ -115,7 +116,7 @@ def get_lime_map(model, preprocessor, image_bytes, orig_image_np, device):
     
     return array_to_base64(img_boundry_uint8)
 
-def generate_all_explanations(model, preprocessor, image_tensor, image_bytes):
+def generate_all_explanations(model, preprocessor, image_tensor, image_bytes, model_type):
     """Wrapper function to generate all maps and return a dict of base64 strings."""
     device = image_tensor.device
     
@@ -143,7 +144,7 @@ def generate_all_explanations(model, preprocessor, image_tensor, image_bytes):
         
     try:
         print("[explainers] generating LIME...")
-        lime_b64 = get_lime_map(model, preprocessor, image_bytes, orig_np, device)
+        lime_b64 = get_lime_map(model, preprocessor, image_bytes, orig_np, device, model_type)
         result["LIME"] = f"data:image/jpeg;base64,{lime_b64}"
     except Exception as e:
         print(f"[explainers] LIME failed: {e}")

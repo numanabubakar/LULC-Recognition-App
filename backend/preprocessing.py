@@ -18,7 +18,7 @@ class LULCPreprocessor:
             image_size: Target size for resizing (default 224x224)
         """
         self.image_size = image_size
-        self.transforms = transforms.Compose([
+        self.default_transforms = transforms.Compose([
             transforms.Resize((image_size, image_size), interpolation=transforms.InterpolationMode.BILINEAR),
             transforms.ToTensor(),
             transforms.Normalize(
@@ -26,13 +26,33 @@ class LULCPreprocessor:
                 std=[0.229, 0.224, 0.225]
             )
         ])
+        
+        # Keep for backwards compatibility if needed
+        self.transforms = self.default_transforms
+        
+    def get_transforms(self, model_type: str, image_width: int, image_height: int):
+        """Get the appropriate transforms based on model type and image size."""
+        if model_type == "eurosat":
+            if image_width > 64 or image_height > 64:
+                return transforms.Compose([
+                    transforms.Resize((64, 64), interpolation=transforms.InterpolationMode.BILINEAR),
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+                ])
+            else:
+                return transforms.Compose([
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+                ])
+        return self.default_transforms
     
-    def preprocess(self, image_bytes: bytes) -> torch.Tensor:
+    def preprocess(self, image_bytes: bytes, model_type: str = None) -> torch.Tensor:
         """
         Preprocess image from bytes to normalized tensor.
         
         Args:
             image_bytes: Image file as bytes
+            model_type: The model type to use for preprocessing logic
             
         Returns:
             Normalized image tensor of shape (1, 3, H, W)
@@ -41,7 +61,8 @@ class LULCPreprocessor:
         image = Image.open(BytesIO(image_bytes)).convert("RGB")
         
         # Apply transforms
-        image_tensor = self.transforms(image)
+        transform = self.get_transforms(model_type, image.width, image.height)
+        image_tensor = transform(image)
         
         # Add batch dimension
         image_tensor = image_tensor.unsqueeze(0)

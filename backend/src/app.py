@@ -11,7 +11,7 @@ import io
 from model_loader import get_model_loader
 from preprocessing import get_preprocessor
 from class_mappings import get_class_label
-from explainers import generate_all_explanations
+from src.explainers import generate_all_explanations
 
 
 app = FastAPI(
@@ -150,7 +150,7 @@ async def predict(
         print(f"[predict] image_info={image_info}")
         
         # Preprocess image
-        image_tensor = preprocessor.preprocess(image_bytes)
+        image_tensor = preprocessor.preprocess(image_bytes, model_type)
         image_tensor = image_tensor.to(loader.get_device())
         print(
             f"[predict] image_tensor: shape={tuple(image_tensor.shape)}, "
@@ -195,7 +195,7 @@ async def predict(
         print(f"[predict] inference_time_ms={inference_time:.3f}")
         
         # Generate explanations (we do this after inference timer to not skew metrics)
-        explain_maps = generate_all_explanations(model, preprocessor, image_tensor, image_bytes)
+        explain_maps = generate_all_explanations(model, preprocessor, image_tensor, image_bytes, model_type)
         
         # Get prediction
         class_idx = all_predictions[0].class_index
