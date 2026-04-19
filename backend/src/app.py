@@ -100,6 +100,12 @@ def calculate_flops(input_shape: tuple = (1, 3, 224, 224)) -> int:
 
 
 # Routes
+@app.get("/")
+async def root():
+    """Root endpoint for HuggingFace health checks."""
+    return {"status": "ok", "message": "LULC Recognition API is running"}
+
+
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
     """Health check endpoint."""
